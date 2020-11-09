@@ -22,19 +22,19 @@ class Dodge():
             r = randint (1, 4)
             info["direction"] = r
             if r == 1:
-                info["body"].position = [-5000, randint(5, 113)]
+                info["body"].position = [-2940, randint(5, 113)]
                 info["body"].velocity = [50, 0]
                 danger = [2, info["body"].position[1] - 5]
             elif r == 2:
-                info["body"].position = [randint(5, 175), -5000]
+                info["body"].position = [randint(5, 175), -3000]
                 info["body"].velocity = [0, 50]
                 danger = [info["body"].position[0] -5, 1]
             elif r == 3:
-                info["body"].position = [randint(5, 175), 6200]
+                info["body"].position = [randint(5, 175), 3120]
                 info["body"].velocity = [0, -50]
                 danger = [info["body"].position[0] -5, 109]
             elif r == 4:
-                info["body"].position = [ 6800, randint(5, 113)]
+                info["body"].position = [3120, randint(5, 113)]
                 info["body"].velocity = [-50, 0]
                 danger = [168, info["body"].position[1] - 5] 
             info["danger"] = danger
@@ -71,7 +71,7 @@ class Dodge():
         # Targets(Obstacles)
         
         # Win
-        if (self.time >= 6.0):
+        if (self.time >= 5.0):
             self.win = True
             self.running = False
         # Lose

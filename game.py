@@ -20,6 +20,7 @@ def update():
     elif Menu.practice != 0:
         Between.game = Menu.practice
         Between.first = False
+        Between.difficulty = Menu.difficulty
         start()
         Menu.practice = 0
     else:
@@ -42,13 +43,14 @@ def update():
                 Menu.running = True
         else:
             Between.first = False
+            Between.difficulty = Menu.difficulty
             start()
 
 
 def draw():
     pyxel.cls(0)
     if Between.running:
-        Between.draw(Between.win)
+        Between.draw(Between.win, Menu.difficulty)
     elif Menu.running:
         Menu.draw()
     elif Chain.running:

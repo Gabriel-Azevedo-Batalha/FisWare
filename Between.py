@@ -32,7 +32,7 @@ class Between():
         self.game += randint(1, self.nGames - 1)
         if self.game > self.nGames:
             self.game -= self.nGames
-    def draw(self, win):
+    def draw(self, win, startingDifficulty):
 
         if win:
             if self.practice:
@@ -51,7 +51,7 @@ class Between():
             else:
                 pyxel.text(45, 110, "Press Enter to continue", pyxel.COLOR_RED)
                 pyxel.text(70, 30, "You Lose !", pyxel.COLOR_YELLOW)
-                pyxel.text(65, 40, "Your Score: "+str(self.difficulty-1), pyxel.COLOR_RED)
+                pyxel.text(65, 40, "Your Score: "+str(self.difficulty-startingDifficulty), pyxel.COLOR_RED)
     def update(self):
         if pyxel.btn(pyxel.KEY_ENTER):
             self.running = False
