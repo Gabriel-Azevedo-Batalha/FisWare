@@ -23,6 +23,7 @@ class Between():
         elif not practice:
             self.win = False
             self.first = True
+            self.randomize()
         else:
             self.win = win
             self.first = True    

@@ -37,7 +37,6 @@ def update():
                     Menu.running = True
                 else:
                     start()
-
             else:
                 Between.calc(win = False, practice=games[Between.game - 1].practice)
                 Menu.running = True
