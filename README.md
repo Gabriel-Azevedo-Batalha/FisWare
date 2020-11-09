@@ -1,6 +1,6 @@
 # FisWare
 ## Idéia
-    Um jogo que sorteia, que, se comprido, vai sortear outro incrementando a dificuldade
+    Um jogo que sorteia um minigame, que, se cumprido, vai sortear outro incrementando a dificuldade
 
 ## Como iniciar
     Para iniciar use: python3 game.py na pasta raiz
@@ -10,6 +10,7 @@
     - Selecione usando o número correspondente o minigame
 - Pressione **O** para abrir a aba de opções
     - Altere a dificuldade inicial usando **<** e **>**
+- Em qualque aba pressione **B** para voltar
 - Ao concluir um minigame pressione enter para sair da tela de resultados
 ## Minigames
 ### Pong
