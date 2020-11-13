@@ -1,30 +1,42 @@
 import pyxel
 
+
+# Menu
 class Menu():
+    # Creation
     def __init__(self):
         self.running = True
-        self.start = [60,60]
-        self.title = [65,30]
+        self.buttons = [60, 60]
+        self.title = [65, 30]
         self.option = "menu"
         self.practice = 0
         self.difficulty = 1
 
+    # Draw
     def draw(self):
+        # 1st Button coordnate
+        x, y = self.buttons
+        # Initial Screen
         if self.option == "menu":
-            pyxel.text(self.start[0], self.start[1], "-[S]tart", pyxel.COLOR_RED)
-            pyxel.text(self.start[0], self.start[1] + 10, "-[P]ractice", pyxel.COLOR_RED)
-            pyxel.text(self.start[0], self.start[1] + 20, "-[O]ptions", pyxel.COLOR_RED)
-            pyxel.blt( self.title[0], self.title[1], 1, 0, 0, 50, 9, pyxel.COLOR_BLACK)
+            pyxel.text(x, y, "-[S]tart", pyxel.COLOR_RED)
+            pyxel.text(x, y + 10, "-[P]ractice", pyxel.COLOR_RED)
+            pyxel.text(x, y + 20, "-[O]ptions", pyxel.COLOR_RED)
+            pyxel.blt(*self.title, 1, 0, 0, 50, 9, pyxel.COLOR_BLACK)
+        # Practice Screen
         elif self.option == "practice":
-            pyxel.text(self.start[0], self.start[1] , "-[1] Pong", pyxel.COLOR_RED)
-            pyxel.text(self.start[0], self.start[1] + 10, "-[2] BallNChain", pyxel.COLOR_RED)
-            pyxel.text(self.start[0], self.start[1] + 20, "-[3] Dodge", pyxel.COLOR_RED)
-            pyxel.text(self.start[0], self.start[1] + 30, "-[B]ack", pyxel.COLOR_RED)
-            pyxel.blt (self.title[0], self.title[1], 1, 0, 0, 50, 9, pyxel.COLOR_BLACK)
+            pyxel.text(x, y, "-[1] Pong", pyxel.COLOR_RED)
+            pyxel.text(x, y + 10, "-[2] BallNChain", pyxel.COLOR_RED)
+            pyxel.text(x, y + 20, "-[3] Dodge", pyxel.COLOR_RED)
+            pyxel.text(x, y + 30, "-[B]ack", pyxel.COLOR_RED)
+            pyxel.blt(*self.title, 1, 0, 0, 50, 9, pyxel.COLOR_BLACK)
+        # Options Screen
         elif self.option == "options":
-            pyxel.text(self.start[0], self.start[1] + 0, f"-Difficulty [<]{self.difficulty}[>]", pyxel.COLOR_RED)
-            pyxel.text(self.start[0], self.start[1] + 10, "-[B]ack", pyxel.COLOR_RED)
-            pyxel.blt (self.title[0], self.title[1], 1, 0, 0, 50, 9, pyxel.COLOR_BLACK)
+            text = f"-Difficulty [<]{self.difficulty}[>]"
+            pyxel.text(x, y, text, pyxel.COLOR_RED)
+            pyxel.text(x, y + 10, "-[B]ack", pyxel.COLOR_RED)
+            pyxel.blt(*self.title, 1, 0, 0, 50, 9, pyxel.COLOR_BLACK)
+
+    # Update
     def update(self):
         # Start Menu
         if self.option == "menu":
@@ -63,8 +75,8 @@ class Menu():
             if pyxel.btn(pyxel.KEY_B):
                 self.option = "menu"
             # Difficulty Changer - btnr: 1 change per press(No holding)
-            if pyxel.btnr(pyxel.KEY_COMMA):
+            if pyxel.btnr(pyxel.KEY_COMMA):  # Down
                 if self.difficulty > 1:
                     self.difficulty -= 1
-            elif pyxel.btnr(pyxel.KEY_PERIOD):
+            elif pyxel.btnr(pyxel.KEY_PERIOD):  # Up
                     self.difficulty += 1

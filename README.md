@@ -19,6 +19,7 @@
 ### BallNChain
 - Objetivo: Acertar com a bola todos os alvos
 - Derrota: Deixar um alvo sair da tela
+- Problemas: Bola precisa de conserto, limites se movem
 - Controles: **UP**, **DOWN**, **LEFT** e **RIGHT**
 ### Dodge
 - Objetivo: Desviar de todos os lasers

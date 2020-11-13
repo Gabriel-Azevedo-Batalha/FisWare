@@ -126,4 +126,3 @@ class Dodge():
                 or (laser["body"].position[1] < 0 and laser["direction"] == 2)
                 or (laser["body"].position[1] > 120 and laser["direction"] == 3)):
                 pyxel.blt(laser["danger"][0], laser["danger"][1], 0, 33, 0, 11, 10, pyxel.COLOR_WHITE)
-        

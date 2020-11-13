@@ -1,71 +1,93 @@
-import pyxel, pymunk 
-import Pong, BallNChain, Dodge
-import Menu, Between
+# Engine
+import pyxel
+import pymunk
+# Games
+import Pong
+import BallNChain
+import Dodge
+# Menu and between minigames processing
+import Menu
+import Between
 
-pyxel.init(180, 120, fps = 30)
+# Inits
+pyxel.init(180, 120, fps=30)
 Chain = BallNChain.BallNChain()
 Pong = Pong.Pong()
 Dodge = Dodge.Dodge()
 Menu = Menu.Menu()
-Between = Between.Between(nGames = 3)
+Between = Between.Between(nGames=3)
 games = [Pong, Chain, Dodge]
 
+
+# Update
 def update():
+    # Between update
     if Between.running:
         Between.update()
+    # Menu update
     elif Menu.running:
         Menu.update()
-        if Between.difficulty != 1:
-            Between.difficulty = 1
+        # Change difficulty to base difficulty
+        if Between.difficulty != Menu.difficulty:
+            Between.difficulty = Menu.difficulty
+    # Practice Start
     elif Menu.practice != 0:
         Between.game = Menu.practice
         Between.first = False
-        Between.difficulty = Menu.difficulty
         start()
         Menu.practice = 0
+    # Minigame update
     else:
-        if Chain.running:
-            Chain.update()
-        elif Pong.running:
-            Pong.update()
-        elif Dodge.running:
-            Dodge.update()
+        # Game running
+        if games[Between.game-1].running:
+            games[Between.game-1].update()
+        # Between minigames
         elif not Between.first:
-            if games[Between.game - 1].win:
-                games[Between.game - 1].win = False
-                Between.calc(win = True, practice=games[Between.game - 1].practice)
-                if games[Between.game - 1].practice:
+            # Won last minigame
+            if games[Between.game-1].win:
+                games[Between.game-1].win = False
+                Between.calc(True, games[Between.game - 1].practice)
+                # Practice End
+                if games[Between.game-1].practice:
                     Menu.running = True
                 else:
                     start()
+            # Lost last minigame
             else:
-                Between.calc(win = False, practice=games[Between.game - 1].practice)
+                Between.calc(False, games[Between.game-1].practice)
                 Menu.running = True
+        # First minigame
         else:
             Between.first = False
-            Between.difficulty = Menu.difficulty
             start()
 
 
+# Draw
 def draw():
+    # Clean Screen
     pyxel.cls(0)
+    # Result Screen
     if Between.running:
         Between.draw(Between.win, Menu.difficulty)
+    # Menu
     elif Menu.running:
         Menu.draw()
-    elif Chain.running:
-        Chain.draw()
-    elif Pong.running:
-        Pong.draw()
-    elif Dodge.running:
-            Dodge.draw()
-   
-def start():
-    if Menu.practice == 0:
-        games[Between.game - 1].start(difficulty=Between.difficulty)
-    else :
-        games[Between.game - 1].start(difficulty=Between.difficulty, practice=True)
+    # Minigame
+    elif games[Between.game-1].running:
+            games[Between.game-1].draw()
 
+
+# Start Minigame
+def start():
+    # Normal Mode
+    if Menu.practice == 0:
+        games[Between.game-1].start(Between.difficulty)
+    # Practice Mode
+    else:
+        games[Between.game-1].start(Between.difficulty, practice=True)
+
+
+# Game Load
 pyxel.load("assets.pyxres")
 pyxel.playm(0, loop=True)
 pyxel.run(update, draw)
