@@ -6,11 +6,17 @@ class Dodge():
     def __init__(self):
         self.practice = False
         self.running = False
-        self.player = pymunk.Body(mass= 100,moment = 1000)
+        self.player = pymunk.Body(mass= 100,moment = float("inf"))
+        playerShape = pymunk.Poly(self.player, [(0, 0), (0, 7), (7, 7), (7, 0)])
         self.lasers = []
         self.Space = pymunk.Space()
-        self.Space.add(self.player)
+        
         self.win = False 
+        walls = [pymunk.Segment(self.Space.static_body, (-1, -1), (-1, 121), 2)
+                ,pymunk.Segment(self.Space.static_body, (-1, -1), (181, -1), 2)
+                ,pymunk.Segment(self.Space.static_body, (182, 122), (182, -1), 2)
+                ,pymunk.Segment(self.Space.static_body, (182, 122), (-1, 122), 2)] 
+        self.Space.add(self.player, walls, playerShape)
     
     def start(self,difficulty = 1, practice = False):
         self.practice = practice
@@ -19,12 +25,14 @@ class Dodge():
         for i in range(difficulty + 2):
             info = {}
             info["body"] = pymunk.Body(mass= 1,moment = 1)
+            
             r = randint (1, 4)
             info["direction"] = r
             if r == 1:
                 info["body"].position = [-2940, randint(5, 113)]
                 info["body"].velocity = [50, 0]
                 danger = [2, info["body"].position[1] - 5]
+                
             elif r == 2:
                 info["body"].position = [randint(5, 175), -3000]
                 info["body"].velocity = [0, 50]
@@ -67,8 +75,6 @@ class Dodge():
         if (not (pyxel.btn(pyxel.KEY_LEFT) or pyxel.btn(pyxel.KEY_RIGHT))):
             x *= 0.8
         self.player.velocity = [x, y]
-
-        # Targets(Obstacles)
         
         # Win
         if (self.time >= 5.0):
@@ -92,6 +98,7 @@ class Dodge():
                 self.player.position[0] + 8 >= laser["body"].position[0])):
                 self.win = False 
                 self.running = False
+
         self.time += self.dt
         self.Space.step(1)
 

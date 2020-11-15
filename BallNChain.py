@@ -16,7 +16,7 @@ class BallNChain():
         self.collisionTypes = {"ball": 1, "target": 2,
                                "player": 3, "wall": 4}
         # Player Init
-        self.player = pymunk.Body(mass=100, moment=1000)
+        self.player = pymunk.Body(mass=100, moment=float("inf"))
         playerShape = pymunk.Poly(self.player, [(0, 0), (0, 7), (7, 7), (7, 0)])
         playerShape.collision_type = self.collisionTypes["player"]
         # Target Init
@@ -31,10 +31,10 @@ class BallNChain():
         ballShape = pymunk.Circle(body=self.ball, radius=5, offset=[5, 5])
         ballShape.collision_type = self.collisionTypes["ball"]
         # Walls Init
-        walls = [pymunk.Segment(self.Space.static_body, (-1, -1), (-1, 121), 3)
-                ,pymunk.Segment(self.Space.static_body, (-1, -1), (181, -1), 3)
-                ,pymunk.Segment(self.Space.static_body, (181, 121), (181, -1), 3)
-                ,pymunk.Segment(self.Space.static_body, (181, 121), (-1, 121), 3)] 
+        walls = [pymunk.Segment(self.Space.static_body, (-1, -1), (-1, 121), 2)
+                ,pymunk.Segment(self.Space.static_body, (-1, -1), (181, -1), 2)
+                ,pymunk.Segment(self.Space.static_body, (182, 122), (182, -1), 2)
+                ,pymunk.Segment(self.Space.static_body, (182, 122), (-1, 122), 2)]
         for i in range(4):
             walls[i].collision_type = self.collisionTypes["wall"]
         # Space Add
@@ -44,7 +44,12 @@ class BallNChain():
         BallTarget = self.Space.add_collision_handler(
             self.collisionTypes["ball"],
             self.collisionTypes["target"])
-        BallTarget.begin = Space.TargetBall
+        BallTarget.begin = Space.BallTarget
+        # Player Target CollisionHandler
+        PlayerTarget = self.Space.add_collision_handler(
+            self.collisionTypes["player"],
+            self.collisionTypes["target"])
+        PlayerTarget.begin = Space.PlayerTarget
 
     def start(self, difficulty=1, practice=False):
         self.practice = practice
@@ -111,7 +116,7 @@ class BallNChain():
         # Win
         if (self.targets[0].color == self.targets[1].color
                 and self.targets[0].color == self.targets[2].color
-                and self.targets[0].color == pyxel.COLOR_RED):
+                and self.targets[0].color == pyxel.COLOR_BLACK):
             self.win = True
             self.running = False
         # Lose
@@ -124,6 +129,10 @@ class BallNChain():
 
     def draw(self):
         pyxel.load("assets.pyxres")
+        # DRAW OBSTACLES
+        pyxel.circ(*self.targets[0].position, 5, self.targets[0].color)
+        pyxel.circ(*self.targets[1].position, 5, self.targets[1].color)
+        pyxel.circ(*self.targets[2].position, 5, self.targets[2].color)
         # Draw Instruction
         pyxel.text(75, 0, "Destroy !", pyxel.COLOR_YELLOW)
         # DRAW CHAIN
@@ -134,7 +143,4 @@ class BallNChain():
         pyxel.blt(*self.player.position, 0, 5, 2, 7, 7, pyxel.COLOR_WHITE)
         # DRAW BALL
         pyxel.blt(*self.ball.position, 0, 19, 4, 11, 11, pyxel.COLOR_WHITE)
-        # DRAW OBSTACLES
-        pyxel.circ(*self.targets[0].position, 5, self.targets[0].color)
-        pyxel.circ(*self.targets[1].position, 5, self.targets[1].color)
-        pyxel.circ(*self.targets[2].position, 5, self.targets[2].color)
+        
