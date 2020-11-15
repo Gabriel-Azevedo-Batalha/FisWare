@@ -2,6 +2,11 @@ import pyxel
 import pymunk
 import random
 import Space
+'''
+Things to maybe do:
+- Improve ball movement
+- Make PlayerBall collision result in defeat
+'''
 
 
 class BallNChain():
@@ -16,35 +21,46 @@ class BallNChain():
         self.collisionTypes = {"ball": 1, "target": 2,
                                "player": 3, "wall": 4}
         # Player Init
-        self.player = pymunk.Body(mass=100, moment=float("inf"))
-        playerShape = pymunk.Poly(self.player, [(0, 0), (0, 7), (7, 7), (7, 0)])
+        self.player = pymunk.Body(mass=10000, moment=float("inf"))
+        vertices = [(0, 0), (0, 7), (7, 7), (7, 0)]
+        playerShape = pymunk.Poly(self.player, vertices)
         playerShape.collision_type = self.collisionTypes["player"]
         # Target Init
         self.targets, targetShape = [[], []]
         for i in range(3):
-            self.targets.append(pymunk.Body(mass=10, moment=10,
+            self.targets.append(pymunk.Body(mass=50, moment=10,
                                             body_type=pymunk.Body.KINEMATIC))
             targetShape.append(pymunk.Circle(body=self.targets[i], radius=5))
             targetShape[i].collision_type = self.collisionTypes["target"]
         # Ball Init
-        self.ball = pymunk.Body(mass=500, moment=10)
+        self.ball = pymunk.Body(mass=10, moment=float("inf"))
         ballShape = pymunk.Circle(body=self.ball, radius=5, offset=[5, 5])
         ballShape.collision_type = self.collisionTypes["ball"]
+        joint = pymunk.SlideJoint(self.ball, self.player,
+                                  (0, 0), (0, 0), 0, 50)
         # Walls Init
-        walls = [pymunk.Segment(self.Space.static_body, (-1, -1), (-1, 121), 2)
-                ,pymunk.Segment(self.Space.static_body, (-1, -1), (181, -1), 2)
-                ,pymunk.Segment(self.Space.static_body, (182, 122), (182, -1), 2)
-                ,pymunk.Segment(self.Space.static_body, (182, 122), (-1, 122), 2)]
+        origin1 = (-1, -1)
+        origin2 = (182, 122)
+        walls = [pymunk.Segment(self.Space.static_body, origin1, (-1, 121), 2),
+                 pymunk.Segment(self.Space.static_body, origin1, (181, -1), 2),
+                 pymunk.Segment(self.Space.static_body, origin2, (182, -1), 2),
+                 pymunk.Segment(self.Space.static_body, origin2, (-1, 122), 2)]
         for i in range(4):
             walls[i].collision_type = self.collisionTypes["wall"]
         # Space Add
         self.Space.add(self.ball, self.player, *self.targets,
-                       playerShape, ballShape, *targetShape, walls)
+                       playerShape, ballShape, *targetShape, walls,
+                       joint)
         # Ball Target CollisionHandler
         BallTarget = self.Space.add_collision_handler(
             self.collisionTypes["ball"],
             self.collisionTypes["target"])
         BallTarget.begin = Space.BallTarget
+        # Wall Target CollisionHandler
+        WallTarget = self.Space.add_collision_handler(
+            self.collisionTypes["wall"],
+            self.collisionTypes["target"])
+        WallTarget.begin = Space.WallTarget
         # Player Target CollisionHandler
         PlayerTarget = self.Space.add_collision_handler(
             self.collisionTypes["player"],
@@ -74,7 +90,7 @@ class BallNChain():
         self.running = True
 
     def update(self):
-        
+
         # PLAYER
         x, y = self.player.velocity
         if pyxel.btn(pyxel.KEY_LEFT):
@@ -94,25 +110,8 @@ class BallNChain():
         if (not (pyxel.btn(pyxel.KEY_LEFT) or pyxel.btn(pyxel.KEY_RIGHT))):
             x *= 0.8
         self.player.velocity = [x, y]
-        # BALL NEED FIX
-        # xb = 10
-        # yb = 60
-
-        k = 300
-        g = 5
-        dt = 1/30
-        self.playerC = self.player.position + [3, 4]
-        Fx, Fy = -k*(self.ball.position-self.playerC)-g*[self.vx, self.vy]
-        #self.ball.apply_force_at_local_point((Fx, Fy), self.ball.position)
-        
-        ax = Fx / self.ball.mass
-        ay = Fy / self.ball.mass
-        # ball.velocity += [ax * dt, ay * dt]
-        # vx, vy = self.ball.velocity
-        self.vx += ax * dt
-        self.vy += ay * dt
-        self.ball.position += [self.vx * dt, self.vy * dt]
-
+        if self.player.velocity == [0, 0]:
+            self.ball.velocity *= 0.1
         # Win
         if (self.targets[0].color == self.targets[1].color
                 and self.targets[0].color == self.targets[2].color
@@ -125,6 +124,7 @@ class BallNChain():
                 or self.targets[2].position[0] < -5):
             self.win = False
             self.running = False
+        # Step
         self.Space.step(1)
 
     def draw(self):
@@ -143,4 +143,3 @@ class BallNChain():
         pyxel.blt(*self.player.position, 0, 5, 2, 7, 7, pyxel.COLOR_WHITE)
         # DRAW BALL
         pyxel.blt(*self.ball.position, 0, 19, 4, 11, 11, pyxel.COLOR_WHITE)
-        
