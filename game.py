@@ -5,6 +5,7 @@ import pymunk
 import Pong
 import BallNChain
 import Dodge
+import Claw
 # Menu and between minigames processing
 import Menu
 import Between
@@ -17,6 +18,10 @@ Dodge = Dodge.Dodge()
 Menu = Menu.Menu()
 Between = Between.Between(nGames=3)
 games = [Pong, Chain, Dodge]
+# Not implemented
+# Claw = Claw.Claw()
+# Between = Between.Between(nGames=4)
+# games.append(Claw)
 
 
 # Update

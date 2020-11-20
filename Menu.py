@@ -27,7 +27,8 @@ class Menu():
             pyxel.text(x, y, "-[1] Pong", pyxel.COLOR_RED)
             pyxel.text(x, y + 10, "-[2] BallNChain", pyxel.COLOR_RED)
             pyxel.text(x, y + 20, "-[3] Dodge", pyxel.COLOR_RED)
-            pyxel.text(x, y + 30, "-[B]ack", pyxel.COLOR_RED)
+            pyxel.text(x, y + 30, "-[4] Claw", pyxel.COLOR_RED)
+            pyxel.text(x, y + 40, "-[B]ack", pyxel.COLOR_RED)
             pyxel.blt(*self.title, 1, 0, 0, 50, 9, pyxel.COLOR_BLACK)
         # Options Screen
         elif self.option == "options":
@@ -69,6 +70,13 @@ class Menu():
                 self.practice = 3
                 self.option = "menu"
                 self.running = False
+            # Claw (Not Implemented)
+            '''
+            elif pyxel.btn(pyxel.KEY_4):
+                self.practice = 4
+                self.option = "menu"
+                self.running = False
+            '''
         # Options Menu
         elif self.option == "options":
             # Back

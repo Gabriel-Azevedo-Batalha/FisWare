@@ -5,9 +5,10 @@ import pymunk
 def BallTarget(arbiter, space, data):
     target = arbiter.shapes[1]
     target.body.velocity = [0, 0]
-    target.body.color = 0
-    # If bellow line is commented target turns touchable
-    target.sensor = True
+    target.body.color = 0  # Turns the target invisible
+    # If you want destroyed targets to be solid please
+    # consider changing it to another color
+    target.sensor = True  # If commented target turns touchable
     return True
 
 
@@ -29,6 +30,13 @@ def PlayerTarget(arbiter, space, data):
     return True
 
 
+def PlayerBall(arbiter, space, data):
+    player = arbiter.shapes[0]
+    # Lose game
+    player.body.position = (-5, 0)
+    return False
+
+
 # Space Class - Exclusive for Pong (Self-implemented)
 class Space():
     # Apply Velocity
@@ -36,6 +44,7 @@ class Space():
         position[0] += velocity[0]
         position[1] += velocity[1]
         return position
+
     # Check and apply collisions
     def checkCollision(self, ball, ballVelocity, body="Walls"):
         x, y = ballVelocity
@@ -43,7 +52,7 @@ class Space():
         if body != "Walls":
             if ((ball[0] == body[0]
                or (body[0] == 1 and x + ball[0] < 1)            # If is player
-               or (body[0] != 1 and x + ball[0] > body[0]))     # If is enemy 
+               or (body[0] != 1 and x + ball[0] > body[0]))     # If is enemy
                and ball[1] > body[1] - 10
                and ball[1] <= body[1] + 10):
                 x *= -1.1  # Reflect and accelerate ball
