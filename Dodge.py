@@ -7,6 +7,7 @@ Things to maybe do:
 - Make LaserPlayer Collision by pymunk
 '''
 
+
 class Dodge():
     def __init__(self):
         # Initial Minigame Properties

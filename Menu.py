@@ -27,8 +27,8 @@ class Menu():
         elif self.option == "practice":
             count = 1
             for i in games:
-                line = '-[' + str(count) + '] ' + i   
-                off = (count-1)*10              
+                line = '-[' + str(count) + '] ' + i
+                off = (count-1)*10
                 pyxel.text(x, y + off, line, pyxel.COLOR_RED)
                 count += 1
             pyxel.text(x, y + 10 + off, "-[B]ack", pyxel.COLOR_RED)
@@ -70,7 +70,7 @@ class Menu():
                     self.option = "menu"
                     self.running = False
                 count += 1
-  
+
         # Options Menu
         elif self.option == "options":
             # Back
