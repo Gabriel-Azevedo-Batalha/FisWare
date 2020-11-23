@@ -16,8 +16,9 @@ Chain = BallNChain.BallNChain()
 Pong = Pong.Pong()
 Dodge = Dodge.Dodge()
 Menu = Menu.Menu()
-Between = Between.Between(nGames=3)
 games = [Pong, Chain, Dodge]
+Between = Between.Between(nGames=len(games))
+gameNames = ['Pong', 'Chain', 'Dodge']  # Game names for practice
 # Not implemented
 # Claw = Claw.Claw()
 # Between = Between.Between(nGames=4)
@@ -31,7 +32,7 @@ def update():
         Between.update()
     # Menu update
     elif Menu.running:
-        Menu.update()
+        Menu.update(gameNames)
         # Change difficulty to base difficulty
         if Between.difficulty != Menu.difficulty:
             Between.difficulty = Menu.difficulty
@@ -69,14 +70,12 @@ def update():
 
 # Draw
 def draw():
-    # Clean Screen
-    pyxel.cls(0)
     # Result Screen
     if Between.running:
         Between.draw(Between.win, Menu.difficulty)
     # Menu
     elif Menu.running:
-        Menu.draw()
+        Menu.draw(gameNames)
     # Minigame
     elif games[Between.game-1].running:
             games[Between.game-1].draw()

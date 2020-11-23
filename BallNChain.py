@@ -132,10 +132,12 @@ class BallNChain():
             self.win = False
             self.running = False
         # Step
-        self.Space.step(1)
+        self.Space.step(0.5)
+        self.Space.step(0.5)
 
     def draw(self):
         pyxel.load("assets.pyxres")
+        pyxel.cls(0)
         # DRAW OBSTACLES
         pyxel.circ(*self.targets[0].position, 5, self.targets[0].color)
         pyxel.circ(*self.targets[1].position, 5, self.targets[1].color)

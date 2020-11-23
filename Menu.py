@@ -13,7 +13,8 @@ class Menu():
         self.difficulty = 1
 
     # Draw
-    def draw(self):
+    def draw(self, games):
+        pyxel.cls(0)
         # 1st Button coordnate
         x, y = self.buttons
         # Initial Screen
@@ -24,11 +25,15 @@ class Menu():
             pyxel.blt(*self.title, 1, 0, 0, 50, 9, pyxel.COLOR_BLACK)
         # Practice Screen
         elif self.option == "practice":
-            pyxel.text(x, y, "-[1] Pong", pyxel.COLOR_RED)
-            pyxel.text(x, y + 10, "-[2] BallNChain", pyxel.COLOR_RED)
-            pyxel.text(x, y + 20, "-[3] Dodge", pyxel.COLOR_RED)
-            pyxel.text(x, y + 30, "-[4] Claw", pyxel.COLOR_RED)
-            pyxel.text(x, y + 40, "-[B]ack", pyxel.COLOR_RED)
+            count = 1
+            for i in games:
+                line = '-[' + str(count) + '] ' + i   
+                off = (count-1)*10              
+                pyxel.text(x, y + off, line, pyxel.COLOR_RED)
+                count += 1
+            pyxel.text(x, y + 10 + off, "-[B]ack", pyxel.COLOR_RED)
+            # pyxel.text(x, y + 30, "-[4] Claw", pyxel.COLOR_RED)
+            # pyxel.text(x, y + 40, "-[B]ack", pyxel.COLOR_RED)
             pyxel.blt(*self.title, 1, 0, 0, 50, 9, pyxel.COLOR_BLACK)
         # Options Screen
         elif self.option == "options":
@@ -38,7 +43,7 @@ class Menu():
             pyxel.blt(*self.title, 1, 0, 0, 50, 9, pyxel.COLOR_BLACK)
 
     # Update
-    def update(self):
+    def update(self, games):
         # Start Menu
         if self.option == "menu":
             # Start
@@ -55,28 +60,17 @@ class Menu():
             # Back
             if pyxel.btn(pyxel.KEY_B):
                 self.option = "menu"
-            # Pong
-            elif pyxel.btn(pyxel.KEY_1):
-                self.practice = 1
-                self.option = "menu"
-                self.running = False
-            # BallNChain
-            elif pyxel.btn(pyxel.KEY_2):
-                self.practice = 2
-                self.option = "menu"
-                self.running = False
-            # Dodge
-            elif pyxel.btn(pyxel.KEY_3):
-                self.practice = 3
-                self.option = "menu"
-                self.running = False
-            # Claw (Not Implemented)
-            '''
-            elif pyxel.btn(pyxel.KEY_4):
-                self.practice = 4
-                self.option = "menu"
-                self.running = False
-            '''
+            # Games
+            count = 1
+            for i in games:
+                key = 'KEY_' + str(count)
+                key = pyxel._get_constant_number(key)
+                if pyxel.btn(key):
+                    self.practice = count
+                    self.option = "menu"
+                    self.running = False
+                count += 1
+  
         # Options Menu
         elif self.option == "options":
             # Back

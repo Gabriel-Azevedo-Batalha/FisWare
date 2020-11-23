@@ -41,6 +41,7 @@ class Between():
 
     # Result Screen
     def draw(self, win, startingDifficulty):
+        pyxel.cls(0)
         # Minigame Win Screen
         if win:
             # Practice Win

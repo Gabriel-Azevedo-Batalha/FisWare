@@ -112,9 +112,11 @@ class Dodge():
                 self.running = False
         # Step
         self.time += self.dt
-        self.Space.step(1)
+        self.Space.step(0.5)
+        self.Space.step(0.5)
 
     def draw(self):
+        pyxel.cls(0)
         pyxel.load("assets.pyxres")
         # Draw Instruction
         pyxel.text(80, 0, "Dodge !", pyxel.COLOR_YELLOW)

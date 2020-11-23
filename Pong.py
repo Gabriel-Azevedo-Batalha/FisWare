@@ -4,6 +4,7 @@ import random
 '''
 Things to maybe do:
 - Improve the use of Space Class
+- Balancement
 '''
 
 
@@ -85,6 +86,7 @@ class Pong():
         self.enemy = self.Space.applyVel(self.enemy, self.enemyVelocity)
 
     def draw(self):
+        pyxel.cls(0)
         # Draw Instruction
         pyxel.text(80, 0, "Win !", pyxel.COLOR_YELLOW)
         # Draw Player

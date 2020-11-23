@@ -51,8 +51,8 @@ class Space():
         # Check for Player/Enemy Collisions
         if body != "Walls":
             if ((ball[0] == body[0]
-               or (body[0] == 1 and x + ball[0] < 1)            # If is player
-               or (body[0] != 1 and x + ball[0] > body[0]))     # If is enemy
+               or (body[0] == 1 and x + ball[0] <= 2)            # If is player
+               or (body[0] != 1 and x + ball[0] >= body[0]-1))     # If is enemy
                and ball[1] > body[1] - 10
                and ball[1] <= body[1] + 10):
                 x *= -1.1  # Reflect and accelerate ball
