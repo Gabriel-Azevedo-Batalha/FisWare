@@ -77,13 +77,13 @@ class BallNChain():
         PlayerTarget.begin = Space.PlayerBall
 
     def start(self, difficulty=1, practice=False):
+        # Modifiers
         self.practice = practice
         # Initial Positions
         self.targets[0].position = (-10*5, random.randint(5, 115))
         self.targets[1].position = (random.randint(5, 175), -10*10)
         self.targets[2].position = (180+10*15, random.randint(5, 115))
         self.player.position = [50, 50]
-        self.playerC = self.player.position + (3, 4)
         self.ball.position = [50, 60]
         # Initial velocities
         self.targets[0].velocity = (0.2*difficulty, 0)
@@ -95,14 +95,12 @@ class BallNChain():
         self.targets[0].color = pyxel.COLOR_WHITE
         self.targets[1].color = pyxel.COLOR_WHITE
         self.targets[2].color = pyxel.COLOR_WHITE
-        # self.ball.velocity = [0 , 100]
         self.vx, self.vy = (0, 100)
         # Start running
         self.running = True
 
     def update(self):
-
-        # PLAYER
+        # Player
         x, y = self.player.velocity
         if pyxel.btn(pyxel.KEY_LEFT):
             if x > -2:
@@ -139,17 +137,17 @@ class BallNChain():
     def draw(self):
         pyxel.load("assets.pyxres")
         pyxel.cls(0)
-        # DRAW OBSTACLES
+        # Draw Targets
         pyxel.circ(*self.targets[0].position, 5, self.targets[0].color)
         pyxel.circ(*self.targets[1].position, 5, self.targets[1].color)
         pyxel.circ(*self.targets[2].position, 5, self.targets[2].color)
         # Draw Instruction
         pyxel.text(75, 0, "Destroy !", pyxel.COLOR_YELLOW)
-        # DRAW CHAIN
+        # Draw Chain
         ballCx, ballCy = self.ball.position+[5, 5]
         playerC = self.player.position+[3, 4]
         pyxel.line(ballCx, ballCy, *playerC, pyxel.COLOR_GRAY)
-        # DRAW PLAYER
+        # Draw Player
         pyxel.blt(*self.player.position, 0, 5, 2, 7, 7, pyxel.COLOR_WHITE)
-        # DRAW BALL
+        # Draw Ball
         pyxel.blt(*self.ball.position, 0, 19, 4, 11, 11, pyxel.COLOR_WHITE)

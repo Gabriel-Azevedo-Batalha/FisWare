@@ -34,6 +34,7 @@ class Dodge():
         self.Space.add(self.player, walls, playerShape)
 
     def start(self, difficulty=1, practice=False):
+        # Modifiers
         self.practice = practice
         # Laser creation
         self.lasers = []
@@ -69,7 +70,7 @@ class Dodge():
         self.time = 0.0
 
     def update(self):
-        # PLAYER
+        # Player
         x, y = self.player.velocity
         if pyxel.btn(pyxel.KEY_LEFT):
             if x > -2:
@@ -122,9 +123,9 @@ class Dodge():
         pyxel.load("assets.pyxres")
         # Draw Instruction
         pyxel.text(80, 0, "Dodge !", pyxel.COLOR_YELLOW)
-        # DRAW Player
+        # Draw Player
         pyxel.blt(*self.player.position, 0, 5, 2, 7, 7, pyxel.COLOR_WHITE)
-        # DRAW Lasers
+        # Draw Lasers
         for laser in self.lasers:
             # Laser
             x, y = laser["body"].position[0], laser["body"].position[1]

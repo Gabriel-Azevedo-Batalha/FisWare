@@ -5,7 +5,7 @@ import pymunk
 import Pong
 import BallNChain
 import Dodge
-import Claw
+#(Not implemented) import Claw
 # Menu and between minigames processing
 import Menu
 import Between
@@ -21,7 +21,6 @@ Between = Between.Between(nGames=len(games))
 gameNames = list(map(Menu.GetName, games))  # Game names for practice
 # Not implemented
 # Claw = Claw.Claw()
-# Between = Between.Between(nGames=4)
 # games.append(Claw)
 
 

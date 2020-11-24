@@ -10,13 +10,10 @@ Things to maybe do:
 
 class Pong():
     def __init__(self):
+        # Initial Minigame Properties
         self.practice = False
         self.running = False
         self.name = "Pong"
-        # Player creation
-        self.player = [0, 0]
-        self.ball = [0, 0]
-        self.enemy = [0, 0]
         # Space creation
         self.Space = Space.Space()
         self.win = False
@@ -29,16 +26,16 @@ class Pong():
         self.enemy = [178, 60]
         self.player = [1, 60]
         self.ball = [90, 60]
-        # Start running
+        # Initial Velocities
         self.ballVelocity = [-0.9 - 0.1*difficulty, -1]
         self.playerVelocity = [0, 0]
         self.enemyVelocity = [0, 0]
+        # Start running
         self.running = True
 
     def update(self):
         # Player
         x, y = self.playerVelocity
-        # Player Moving Logic
         if pyxel.btn(pyxel.KEY_DOWN):  # Move Down
             if y < 2:
                 y += 0.3
@@ -48,16 +45,15 @@ class Pong():
         if (not(pyxel.btn(pyxel.KEY_UP) or
                 pyxel.btn(pyxel.KEY_DOWN))):  # Desaccelerating
             y *= 0.8
-
         # Top/Down Barrier
         if ((self.player[1] >= 110 and y > 0) or
                 (self.player[1] <= 11 and y < 0)):
             y = 0
         # Set Player Velocity
         self.playerVelocity = [x, y]
-        # Enemy
-        x, y = self.enemyVelocity
+
         # Enemy Moving Logic
+        x, y = self.enemyVelocity
         if (self.ball[1] > self.enemy[1] + 7 and
                 self.enemy[1] < 110):  # Move Down
             if y < 2:

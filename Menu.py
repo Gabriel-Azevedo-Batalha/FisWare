@@ -3,7 +3,6 @@ import pyxel
 
 # Menu
 class Menu():
-    # Creation
     def __init__(self):
         self.running = True
         self.buttons = [60, 60]
@@ -16,7 +15,6 @@ class Menu():
     def GetName(self, game):
         return game.name
 
-    # Draw
     def draw(self, games):
         pyxel.cls(0)
         # 1st Button coordnate
@@ -30,14 +28,13 @@ class Menu():
         # Practice Screen
         elif self.option == "practice":
             count = 1
+            # Minigame list
             for i in games:
                 line = '-[' + str(count) + '] ' + i
                 off = (count-1)*10
                 pyxel.text(x, y + off, line, pyxel.COLOR_RED)
                 count += 1
             pyxel.text(x, y + 10 + off, "-[B]ack", pyxel.COLOR_RED)
-            # pyxel.text(x, y + 30, "-[4] Claw", pyxel.COLOR_RED)
-            # pyxel.text(x, y + 40, "-[B]ack", pyxel.COLOR_RED)
             pyxel.blt(*self.title, 1, 0, 0, 50, 9, pyxel.COLOR_BLACK)
         # Options Screen
         elif self.option == "options":
@@ -66,6 +63,7 @@ class Menu():
                 self.option = "menu"
             # Games
             count = 1
+            # Keys for each minigame(Numbers)
             for i in games:
                 key = 'KEY_' + str(count)
                 key = pyxel._get_constant_number(key)
@@ -74,7 +72,6 @@ class Menu():
                     self.option = "menu"
                     self.running = False
                 count += 1
-
         # Options Menu
         elif self.option == "options":
             # Back
