@@ -12,6 +12,7 @@ class Pong():
     def __init__(self):
         self.practice = False
         self.running = False
+        self.name = "Pong"
         # Player creation
         self.player = [0, 0]
         self.ball = [0, 0]

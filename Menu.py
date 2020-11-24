@@ -12,6 +12,10 @@ class Menu():
         self.practice = 0
         self.difficulty = 1
 
+    # Get Minigames Names
+    def GetName(self, game):
+        return game.name
+
     # Draw
     def draw(self, games):
         pyxel.cls(0)

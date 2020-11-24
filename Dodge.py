@@ -13,6 +13,7 @@ class Dodge():
         # Initial Minigame Properties
         self.practice = False
         self.running = False
+        self.name = "Dodge"
         self.win = False
         # Player Init
         self.player = pymunk.Body(mass=100, moment=float("inf"))

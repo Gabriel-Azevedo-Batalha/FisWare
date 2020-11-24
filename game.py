@@ -18,7 +18,7 @@ Dodge = Dodge.Dodge()
 Menu = Menu.Menu()
 games = [Pong, Chain, Dodge]
 Between = Between.Between(nGames=len(games))
-gameNames = ['Pong', 'Chain', 'Dodge']  # Game names for practice
+gameNames = list(map(Menu.GetName, games))  # Game names for practice
 # Not implemented
 # Claw = Claw.Claw()
 # Between = Between.Between(nGames=4)

@@ -13,6 +13,7 @@ class BallNChain():
         # Initial Minigame Properties
         self.practice = False
         self.running = False
+        self.name = "BallNChain"
         self.win = False
         # Space init
         self.Space = pymunk.Space()
