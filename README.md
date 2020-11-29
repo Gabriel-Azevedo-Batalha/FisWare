@@ -1,7 +1,6 @@
 # FisWare
 ## Idéia
-    Um jogo que sorteia um minigame, que, se cumprido, vai sortear outro incrementando a dificuldade
-
+    Um jogo que sorteia um minigame, que, se vencido, vai sortear outro incrementando a dificuldade
 ## Como iniciar
     Para iniciar use: python3 game.py na pasta raiz
 ## Menu
@@ -25,3 +24,7 @@
 - Objetivo: Desviar de todos os lasers
 - Derrota: Ser atingido
 - Controles: **UP**, **DOWN**, **LEFT** e **RIGHT**
+### Claw (Em desenvolvimento)
+- Objetivo: Mover a bola azul para o círculo vermelho
+- Derrota: Nenhuma
+- Controles: **UP**, **DOWN**, **LEFT** e **RIGHT** para se mover e **SPACE** para abrir a garra

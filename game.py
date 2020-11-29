@@ -5,23 +5,25 @@ import pymunk
 import Pong
 import BallNChain
 import Dodge
-#(Not implemented) import Claw
+import Claw
 # Menu and between minigames processing
 import Menu
 import Between
 
-# Inits
+# Pyxel Init
 pyxel.init(180, 120, fps=30)
+# Minigames Inits
 Chain = BallNChain.BallNChain()
 Pong = Pong.Pong()
 Dodge = Dodge.Dodge()
+Claw = Claw.Claw()
+# Menu Init
 Menu = Menu.Menu()
-games = [Pong, Chain, Dodge]
-Between = Between.Between(nGames=len(games))
+# Minigame Lists
+games = [Pong, Chain, Dodge, Claw]
 gameNames = list(map(Menu.GetName, games))  # Game names for practice
-# Not implemented
-# Claw = Claw.Claw()
-# games.append(Claw)
+# Minigame Processing Init
+Between = Between.Between(nGames=len(games))
 
 
 # Update
