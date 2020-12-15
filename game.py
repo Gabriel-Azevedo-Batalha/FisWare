@@ -94,5 +94,6 @@ def start():
 
 # Game Load
 pyxel.load("assets.pyxres")
-pyxel.playm(0, loop=True)
+# Implement Menu song
+# pyxel.playm(1, loop=True)
 pyxel.run(update, draw)

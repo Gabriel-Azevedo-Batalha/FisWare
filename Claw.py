@@ -1,5 +1,11 @@
 import pyxel
 import pymunk
+from random import randint
+'''
+Things to maybe do:
+- Add Difficulty changes
+- Improve general idea
+'''
 
 
 class Claw():
@@ -13,8 +19,8 @@ class Claw():
         self.Space = pymunk.Space()
         # Claw Creation
         self.upClaw = pymunk.Body(mass=200, moment=float("inf"))
-        self.lClaw = pymunk.Body(mass=100, moment=1)
-        self.rClaw = pymunk.Body(mass=100, moment=1)
+        self.lClaw = pymunk.Body(mass=100, moment=1000)
+        self.rClaw = pymunk.Body(mass=100, moment=1000)
         origin1 = (0, 0)
         origin2 = (5, 5)
         origin3 = (-5, 5)
@@ -23,20 +29,12 @@ class Claw():
                      pymunk.Segment(self.rClaw, origin2, (2, 8), 1),
                      pymunk.Segment(self.lClaw, origin3, (-2, 8), 1)]
         self.Space.add(self.upClaw, self.lClaw, self.rClaw, clawShape)
-        # Rope creation
-        ropev = pymunk.Body(mass=100, moment=float("inf"))
-        ropeh = pymunk.Body(mass=100, moment=float("inf"))
-        vrope = pymunk.Segment(ropev, (0, 0), (0, 30), 1)
-        hrope = pymunk.Segment(ropeh, (-90, -30), (90, -30), 1)
-        # self.Space.add(vrope, hrope, ropeh, ropev)
-
         # Object Creation
         self.object = pymunk.Body(mass=1, moment=10)
         ball = pymunk.Circle(self.object, 2)
         self.Space.add(ball, self.object)
         # Objective (Temp)
         self.objective = pymunk.Body(mass=1, moment=10)
-        self.objective.position = (20, 20)
         self.Space.add(self.objective)
         # Left Claw Pivot
         pivot = pymunk.PivotJoint(self.upClaw, self.lClaw, (0, 0), (0, 0))
@@ -50,15 +48,6 @@ class Claw():
         pivot = pymunk.RotaryLimitJoint(self.lClaw, self.rClaw, 0.5, 1)
         pivot.collide_bodies = False
         self.Space.add(pivot)
-
-        # V Rope
-        pivot = pymunk.PivotJoint(self.upClaw, ropev, (0, 0), (0, 30))
-        pivot.collide_bodies = False
-        # self.Space.add(pivot)
-        # H Rope
-        pivot = pymunk.PivotJoint(ropeh, ropev, (0, 0), (0, 30))
-        pivot.collide_bodies = False
-        # self.Space.add(pivot)
 
         # Motors
         self.motorl = pymunk.SimpleMotor(self.lClaw, self.upClaw, 0)
@@ -80,12 +69,21 @@ class Claw():
         self.upClaw.position = (90, 60)
         self.rClaw.position = (90, 60)
         self.lClaw.position = (90, 60)
-        self.object.position = (40, 80)
+        self.object.position = (randint(5, 175), randint(10, 115))
+        self.objective.position = (randint(5, 175), randint(5, 115))
+        # Reset Velocity
+        self.object.velocity = (0, 0)
+        # Reset Timer
+        self.timer = 0.0
         # Start Running
         self.running = True
         self.win = False
 
     def update(self):
+        # Lose
+        if (self.timer >= 20.0):
+            self.running = False
+            self.win = False
         # Claw
         x, y = self.upClaw.velocity
         L = self.lClaw.local_to_world((-2, 8))
@@ -105,9 +103,12 @@ class Claw():
         if (pyxel.btn(pyxel.KEY_SPACE) and L[1] > self.upClaw.position[1]):
             self.motorl.rate = 0.1
             self.motorr.rate = -0.1
+            pyxel.play(0, 62)
         elif (R[0] - L[0] >= 5):
             self.motorl.rate = -0.1
             self.motorr.rate = 0.1
+            if (not pyxel.btn(pyxel.KEY_SPACE)):
+                pyxel.play(0, 61)
         else:
             self.motorl.rate = 0.0
             self.motorr.rate = 0.0
@@ -125,18 +126,31 @@ class Claw():
             self.win = True
         self.Space.step(0.5)
         self.Space.step(0.5)
+        self.timer += 1/30
 
     def draw(self):
         pyxel.cls(0)
+        # Draw Timer
+        text = "Time: " + str(round(20.0 - self.timer, 2))
+        pyxel.text(135, 2, text, pyxel.COLOR_WHITE)
         # Draw Objective (Temp)
-        pyxel.circ(20, 20, 5, pyxel.COLOR_RED)
+        pyxel.circ(*self.objective.position, 5, pyxel.COLOR_WHITE)
+        for i in range(5):
+            if (i % 2 == 0):
+                pyxel.circb(*self.objective.position, i, pyxel.COLOR_RED)
+        pyxel.circb(*self.objective.position, 6, pyxel.COLOR_RED)
+        # Draw Rope
+        x = self.upClaw.position[0]
+        pyxel.line(x, 0, *self.upClaw.position, pyxel.COLOR_GRAY)
+        pyxel.line(x - 5, 1, self.upClaw.position[0] + 5, 1, 1)
+        pyxel.line(x - 3, 2, self.upClaw.position[0] + 3, 2, 1)
         for i in self.Space.shapes:
             # Draw Segments
             if type(i) == pymunk.Segment:
                 if (i.body == self.lClaw or i.body == self.rClaw):
                     color = pyxel.COLOR_YELLOW
                 else:
-                    color = pyxel.COLOR_GRAY
+                    color = pyxel.COLOR_RED
                 x, y = i.body.local_to_world(i.a)
                 x2, y2 = i.body.local_to_world(i.b)
                 pyxel.line(x, y, x2, y2, color)

@@ -18,6 +18,10 @@ class Between():
     def calc(self, win, practice):
         self.running = True
         self.practice = practice
+        if win:
+            pyxel.play(0, 50)
+        else:
+            pyxel.play(0, 51)
         # Minigame Win(Normal)
         if win and not practice:
             self.difficulty += 1
@@ -41,6 +45,7 @@ class Between():
 
     # Result Screen
     def draw(self, win, startingDifficulty):
+        pyxel.load("assets.pyxres")
         pyxel.cls(0)
         # Minigame Win Screen
         if win:

@@ -1,4 +1,5 @@
 import pymunk
+import pyxel
 
 
 # Collision Handlers
@@ -58,10 +59,12 @@ class Space():
                 x *= -1.1  # Reflect and accelerate ball
                 angle = ball[1] - body[1]
                 y += angle/10  # Changing vertical velocity
+                pyxel.play(0, 60)
         # Check for Wall Collisions
         else:
             if ball[1] <= 0 or ball[1] >= 119:
                 y *= -1  # Reflect ball
+                pyxel.play(0, 63)
             # Lose
             elif ball[0] < 0:
                 return False
