@@ -5,11 +5,12 @@ import pyxel
 # Collision Handlers
 def BallTarget(arbiter, space, data):
     target = arbiter.shapes[1]
+    ball = arbiter.shapes[0]
     target.body.velocity = [0, 0]
-    target.body.color = 0  # Turns the target invisible
-    # If you want destroyed targets to be solid please
-    # consider changing it to another color
-    target.sensor = True  # If commented target turns touchable
+    target.body.color = 0
+    if not target.sensor and not ball.body.mute:
+        pyxel.play(0, 58)
+    target.sensor = True
     return True
 
 
@@ -47,7 +48,7 @@ class Space():
         return position
 
     # Check and apply collisions
-    def checkCollision(self, ball, ballVelocity, body="Walls"):
+    def checkCollision(self, ball, ballVelocity, body="Walls", mute=False):
         x, y = ballVelocity
         # Check for Player/Enemy Collisions
         if body != "Walls":
@@ -59,12 +60,14 @@ class Space():
                 x *= -1.1  # Reflect and accelerate ball
                 angle = ball[1] - body[1]
                 y += angle/10  # Changing vertical velocity
-                pyxel.play(0, 60)
+                if not mute:
+                    pyxel.play(0, 60)
         # Check for Wall Collisions
         else:
             if ball[1] <= 0 or ball[1] >= 119:
                 y *= -1  # Reflect ball
-                pyxel.play(0, 63)
+                if not mute:
+                    pyxel.play(0, 63)
             # Lose
             elif ball[0] < 0:
                 return False

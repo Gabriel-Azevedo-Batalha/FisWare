@@ -19,8 +19,8 @@ class Claw():
         self.Space = pymunk.Space()
         # Claw Creation
         self.upClaw = pymunk.Body(mass=200, moment=float("inf"))
-        self.lClaw = pymunk.Body(mass=100, moment=1000)
-        self.rClaw = pymunk.Body(mass=100, moment=1000)
+        self.lClaw = pymunk.Body(mass=100, moment=10000)
+        self.rClaw = pymunk.Body(mass=100, moment=10000)
         origin1 = (0, 0)
         origin2 = (5, 5)
         origin3 = (-5, 5)
@@ -61,16 +61,17 @@ class Claw():
                  pymunk.Segment(self.Space.static_body, origin4, (-1, 119), 1)]
         self.Space.add(walls)
 
-    def start(self, difficulty=1, practice=False):
+    def start(self, difficulty=1, practice=False, mute=False):
         # Modifiers
         self.difficulty = difficulty
         self.practice = practice
+        self.mute = mute
         # Initial positions
         self.upClaw.position = (90, 60)
         self.rClaw.position = (90, 60)
         self.lClaw.position = (90, 60)
         self.object.position = (randint(5, 175), randint(10, 115))
-        self.objective.position = (randint(5, 175), randint(5, 115))
+        self.objective.position = (randint(6, 174), randint(6, 114))
         # Reset Velocity
         self.object.velocity = (0, 0)
         # Reset Timer
@@ -103,11 +104,12 @@ class Claw():
         if (pyxel.btn(pyxel.KEY_SPACE) and L[1] > self.upClaw.position[1]):
             self.motorl.rate = 0.1
             self.motorr.rate = -0.1
-            pyxel.play(0, 62)
+            if not self.mute:
+                pyxel.play(0, 62)
         elif (R[0] - L[0] >= 5):
             self.motorl.rate = -0.1
             self.motorr.rate = 0.1
-            if (not pyxel.btn(pyxel.KEY_SPACE)):
+            if (not pyxel.btn(pyxel.KEY_SPACE) and not self.mute):
                 pyxel.play(0, 61)
         else:
             self.motorl.rate = 0.0
@@ -139,11 +141,7 @@ class Claw():
             if (i % 2 == 0):
                 pyxel.circb(*self.objective.position, i, pyxel.COLOR_RED)
         pyxel.circb(*self.objective.position, 6, pyxel.COLOR_RED)
-        # Draw Rope
-        x = self.upClaw.position[0]
-        pyxel.line(x, 0, *self.upClaw.position, pyxel.COLOR_GRAY)
-        pyxel.line(x - 5, 1, self.upClaw.position[0] + 5, 1, 1)
-        pyxel.line(x - 3, 2, self.upClaw.position[0] + 3, 2, 1)
+        # Shape Drawings
         for i in self.Space.shapes:
             # Draw Segments
             if type(i) == pymunk.Segment:
@@ -158,3 +156,8 @@ class Claw():
             if type(i) == pymunk.Circle:
                 x, y = i.body.position
                 pyxel.circ(x, y, i.radius, pyxel.COLOR_GREEN)
+        # Draw Rope
+        x = self.upClaw.position[0]
+        pyxel.line(x, 1, *self.upClaw.position, pyxel.COLOR_GRAY)
+        pyxel.line(x - 5, 1, self.upClaw.position[0] + 5, 1, 1)
+        pyxel.line(x - 3, 2, self.upClaw.position[0] + 3, 2, 1)

@@ -10,6 +10,8 @@ class Menu():
         self.option = "menu"
         self.practice = 0
         self.difficulty = 1
+        self.music = False
+        self.mute = False
 
     # Get Minigames Names
     def GetName(self, game):
@@ -40,11 +42,16 @@ class Menu():
         elif self.option == "options":
             text = f"-Difficulty [<]{self.difficulty}[>]"
             pyxel.text(x, y, text, pyxel.COLOR_RED)
-            pyxel.text(x, y + 10, "-[B]ack", pyxel.COLOR_RED)
+            pyxel.text(x, y + 10, "-[M]ute", pyxel.COLOR_RED)
+            pyxel.text(x, y + 20, "-[B]ack", pyxel.COLOR_RED)
             pyxel.blt(*self.title, 1, 0, 0, 50, 9, pyxel.COLOR_BLACK)
 
     # Update
     def update(self, games):
+        # Music
+        if not self.music and not self.mute:
+            self.music = True
+            pyxel.playm(1, loop=True)
         # Start Menu
         if self.option == "menu":
             # Start
@@ -83,3 +90,11 @@ class Menu():
                     self.difficulty -= 1
             elif pyxel.btnr(pyxel.KEY_PERIOD):  # Up
                     self.difficulty += 1
+            # Mute
+            if pyxel.btnr(pyxel.KEY_M):
+                if self.mute:
+                    self.mute = False
+                    pyxel.playm(1, loop=True)
+                else:
+                    self.mute = True
+                    pyxel.stop()

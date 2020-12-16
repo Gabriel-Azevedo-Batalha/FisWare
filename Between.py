@@ -15,13 +15,14 @@ class Between():
         self.win = False
 
     # Between Minigame calculations
-    def calc(self, win, practice):
+    def calc(self, win, practice, mute):
         self.running = True
         self.practice = practice
-        if win:
-            pyxel.play(0, 50)
-        else:
-            pyxel.play(0, 51)
+        if not mute:
+            if win:
+                pyxel.play(0, 50)
+            else:
+                pyxel.play(0, 51)
         # Minigame Win(Normal)
         if win and not practice:
             self.difficulty += 1

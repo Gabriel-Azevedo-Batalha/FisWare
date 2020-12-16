@@ -45,6 +45,10 @@ def update():
         Menu.practice = 0
     # Minigame update
     else:
+        # Stop Menu music
+        if Menu.music:
+            pyxel.stop()
+            Menu.music = False
         # Game running
         if games[Between.game-1].running:
             games[Between.game-1].update()
@@ -53,7 +57,7 @@ def update():
             # Won last minigame
             if games[Between.game-1].win:
                 games[Between.game-1].win = False
-                Between.calc(True, games[Between.game - 1].practice)
+                Between.calc(True, games[Between.game - 1].practice, mute=Menu.mute)
                 # Practice End
                 if games[Between.game-1].practice:
                     Menu.running = True
@@ -61,7 +65,7 @@ def update():
                     start()
             # Lost last minigame
             else:
-                Between.calc(False, games[Between.game-1].practice)
+                Between.calc(False, games[Between.game-1].practice, mute=Menu.mute)
                 Menu.running = True
         # First minigame
         else:
@@ -86,10 +90,10 @@ def draw():
 def start():
     # Normal Mode
     if Menu.practice == 0:
-        games[Between.game-1].start(Between.difficulty)
+        games[Between.game-1].start(Between.difficulty, mute=Menu.mute)
     # Practice Mode
     else:
-        games[Between.game-1].start(Between.difficulty, practice=True)
+        games[Between.game-1].start(Between.difficulty, practice=True, mute=Menu.mute)
 
 
 # Game Load

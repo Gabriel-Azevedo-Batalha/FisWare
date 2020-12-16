@@ -76,9 +76,10 @@ class BallNChain():
             self.collisionTypes["ball"])
         PlayerTarget.begin = Space.PlayerBall
 
-    def start(self, difficulty=1, practice=False):
+    def start(self, difficulty=1, practice=False, mute=False):
         # Modifiers
         self.practice = practice
+        self.ball.mute = mute
         # Initial Positions
         self.targets[0].position = (-10*5, random.randint(5, 115))
         self.targets[1].position = (random.randint(5, 175), -10*10)

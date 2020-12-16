@@ -33,9 +33,10 @@ class Dodge():
         # Space Add
         self.Space.add(self.player, walls, playerShape)
 
-    def start(self, difficulty=1, practice=False):
+    def start(self, difficulty=1, practice=False, mute=False):
         # Modifiers
         self.practice = practice
+        self.mute = mute
         # Laser creation
         self.lasers = []
         for i in range(difficulty + 2):
@@ -89,6 +90,9 @@ class Dodge():
         if (not (pyxel.btn(pyxel.KEY_LEFT) or pyxel.btn(pyxel.KEY_RIGHT))):
             x *= 0.8
         self.player.velocity = [x, y]
+        # Sound
+        if not self.mute and self.time >= 2.0 and self.time <= 2.1:
+                pyxel.play(0, 59)
         # Win
         if (self.time >= 5.0):
             self.win = True

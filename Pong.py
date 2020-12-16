@@ -18,10 +18,11 @@ class Pong():
         self.Space = Space.Space()
         self.win = False
 
-    def start(self, difficulty=1, practice=False):
+    def start(self, difficulty=1, practice=False, mute=False):
         # Modifiers
         self.difficulty = difficulty
         self.practice = practice
+        self.mute = mute
         # Initial Positions
         self.enemy = [178, 60]
         self.player = [1, 60]
@@ -70,9 +71,9 @@ class Pong():
 
         # Ball
         ballParams = [self.ball, self.ballVelocity]
-        ballParams[1] = self.Space.checkCollision(*ballParams, self.player)
-        self.ballVelocity = self.Space.checkCollision(*ballParams, self.enemy)
-        check = self.Space.checkCollision(self.ball, self.ballVelocity)
+        ballParams[1] = self.Space.checkCollision(*ballParams, self.player, self.mute)
+        self.ballVelocity = self.Space.checkCollision(*ballParams, self.enemy, self.mute)
+        check = self.Space.checkCollision(self.ball, self.ballVelocity, mute=self.mute)
         if type(check) == bool:
             self.win = check
             self.running = False
