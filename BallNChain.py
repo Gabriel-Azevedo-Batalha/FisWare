@@ -87,9 +87,9 @@ class BallNChain():
         self.player.position = [50, 50]
         self.ball.position = [50, 60]
         # Initial velocities
-        self.targets[0].velocity = (0.2*difficulty, 0)
-        self.targets[1].velocity = (0, 0.2*difficulty)
-        self.targets[2].velocity = (-0.2*difficulty, 0)
+        self.targets[0].velocity = (0.1 + 0.1*difficulty, 0)
+        self.targets[1].velocity = (0, 0.1 + 0.1*difficulty)
+        self.targets[2].velocity = (-0.1 - 0.1*difficulty, 0)
         self.ball.velocity = (0, 0)
         self.player.velocity = (0, 0)
         # Obstacle colors

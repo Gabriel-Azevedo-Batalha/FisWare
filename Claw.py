@@ -4,6 +4,7 @@ from random import randint
 '''
 Things to maybe do:
 - Add Difficulty changes
+- Fix ball spawn auto-win
 - Improve general idea
 '''
 
@@ -17,6 +18,7 @@ class Claw():
         self.name = "Claw"
         # Space Creation
         self.Space = pymunk.Space()
+        self.Space.damping = 0.96
         # Claw Creation
         self.upClaw = pymunk.Body(mass=200, moment=float("inf"))
         self.lClaw = pymunk.Body(mass=100, moment=10000)
@@ -32,6 +34,7 @@ class Claw():
         # Object Creation
         self.object = pymunk.Body(mass=1, moment=10)
         ball = pymunk.Circle(self.object, 2)
+        ball.elasticity = 0.9
         self.Space.add(ball, self.object)
         # Objective (Temp)
         self.objective = pymunk.Body(mass=1, moment=10)
@@ -59,6 +62,8 @@ class Claw():
                  pymunk.Segment(self.Space.static_body, (-1, 0), (181, 0), 1),
                  pymunk.Segment(self.Space.static_body, origin4, (179, -1), 1),
                  pymunk.Segment(self.Space.static_body, origin4, (-1, 119), 1)]
+        for wall in walls:
+            wall.elasticity = 1
         self.Space.add(walls)
 
     def start(self, difficulty=1, practice=False, mute=False):
@@ -114,12 +119,10 @@ class Claw():
         else:
             self.motorl.rate = 0.0
             self.motorr.rate = 0.0
-        if (not (pyxel.btn(pyxel.KEY_UP) or pyxel.btn(pyxel.KEY_DOWN))):
-            y *= 0.8
-        if (not (pyxel.btn(pyxel.KEY_LEFT) or pyxel.btn(pyxel.KEY_RIGHT))):
-            x *= 0.8
         self.upClaw.velocity = [x, y]
 
+        self.object.apply_force_at_local_point((0, 0.5), (0, 0))
+        # Win(Temp)
         if ((self.objective.position[0] >= self.object.position[0]-5
              and self.objective.position[0] <= self.object.position[0]+5) and
             (self.objective.position[1] >= self.object.position[1]-5
@@ -128,7 +131,10 @@ class Claw():
             self.win = True
         self.Space.step(0.5)
         self.Space.step(0.5)
-        self.timer += 1/30
+        self.motorr.rate = 0.1
+        # Timer
+        if not pyxel.btn(pyxel.KEY_SHIFT):  # Stop Timer(Testing Purposes)
+            self.timer += 1/30
 
     def draw(self):
         pyxel.cls(0)
