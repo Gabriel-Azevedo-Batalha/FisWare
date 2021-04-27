@@ -53,7 +53,7 @@ class BallNChain():
             walls[i].collision_type = self.collisionTypes["wall"]
         # Space Add
         self.Space.add(self.ball, self.player, *self.targets,
-                       playerShape, ballShape, *targetShape, walls,
+                       playerShape, ballShape, *targetShape, *walls,
                        chain)
         # Ball Target CollisionHandler
         BallTarget = self.Space.add_collision_handler(

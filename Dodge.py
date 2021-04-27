@@ -31,7 +31,7 @@ class Dodge():
                  pymunk.Segment(self.Space.static_body, origin2, (182, -1), 2),
                  pymunk.Segment(self.Space.static_body, origin2, (-1, 122), 2)]
         # Space Add
-        self.Space.add(self.player, walls, playerShape)
+        self.Space.add(self.player, *walls, playerShape)
 
     def start(self, difficulty=1, practice=False, mute=False):
         # Modifiers

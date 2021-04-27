@@ -30,7 +30,7 @@ class Claw():
                      pymunk.Segment(self.lClaw, origin1, origin3, 1),
                      pymunk.Segment(self.rClaw, origin2, (2, 8), 1),
                      pymunk.Segment(self.lClaw, origin3, (-2, 8), 1)]
-        self.Space.add(self.upClaw, self.lClaw, self.rClaw, clawShape)
+        self.Space.add(self.upClaw, self.lClaw, self.rClaw, *clawShape)
         # Object Creation
         self.object = pymunk.Body(mass=1, moment=10)
         ball = pymunk.Circle(self.object, 2)
@@ -64,7 +64,7 @@ class Claw():
                  pymunk.Segment(self.Space.static_body, origin4, (-1, 119), 1)]
         for wall in walls:
             wall.elasticity = 1
-        self.Space.add(walls)
+        self.Space.add(*walls)
 
     def start(self, difficulty=1, practice=False, mute=False):
         # Modifiers
