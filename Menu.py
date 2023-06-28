@@ -73,7 +73,7 @@ class Menu():
             # Keys for each minigame(Numbers)
             for i in games:
                 key = 'KEY_' + str(count)
-                key = pyxel._get_constant_number(key)
+                key = getattr(pyxel, key)
                 if pyxel.btn(key):
                     self.practice = count
                     self.option = "menu"

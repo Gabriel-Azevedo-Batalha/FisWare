@@ -89,7 +89,7 @@ class Pong():
         pyxel.text(80, 0, "Win !", pyxel.COLOR_YELLOW)
         # Draw Player
         pos = self.player[1]
-        pyxel.line(1, pos + 10, 1, pos - 10, pyxel.COLOR_DARKBLUE)
+        pyxel.line(1, pos + 10, 1, pos - 10, pyxel.COLOR_DARK_BLUE)
         # Draw Enemy
         pos = self.enemy[1]
         pyxel.line(178, pos + 10, 178, pos - 10, pyxel.COLOR_RED)

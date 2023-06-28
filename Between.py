@@ -77,5 +77,5 @@ class Between():
 
     # Update
     def update(self):
-        if pyxel.btn(pyxel.KEY_ENTER):
+        if pyxel.btn(pyxel.KEY_RETURN):
             self.running = False
